@@ -1,0 +1,520 @@
+float clamp01(float x)
+{
+	return clamp(x,0.0,1.0);
+}
+
+float remap01(float from,float to,float x)
+{
+	return  clamp01((x-from)/(to-from));
+}
+
+//easing functions ,return[0,1],same as smoothstep;
+float linear(float from,float to,float x)
+{
+	return clamp01((x-from)/(to-from));
+}
+
+float inQuad(float from,float to ,float x)
+{
+    x = remap01(from,to,x);
+    from=0.0;
+    to = 1.0;
+    float c = to - from;
+	float t = clamp01((x-from)/(c));
+    float s = pow(t,2.0);
+    return s;
+}
+
+float outQuad(float from ,float to ,float x)
+{
+    x = remap01(from,to,x);
+    from = 0.0;
+    to=1.0;
+	float c = to-from;
+    float t = clamp01((x-from)/(c));
+    return  -c*t*(t-2.0);
+}
+
+float inOutQuad(float from ,float to,float x)
+{
+    x = remap01(from,to,x);
+    from = 0.0;
+    to =1.0;
+    float c = to - from;
+    float t = clamp01((x-from)/c) *2.0;
+    float s = step(t,1.0);
+    float s1 = c/2.0*pow(t,2.0);
+    float s2 = -c/2.0*((t-1.0)*(t-3.0)-1.0);
+	return mix(s2,s1,s);
+}
+
+float outInQuad(float from ,float to,float x)
+{
+    x=remap01(from,to,x);
+    from=0.0;
+    to=1.0;
+	float c = to-from;
+    float t = (x-from)/c;
+    float s = step(t,0.5);
+   
+    float c1 = c/2.0;
+    float t1 = t*2.0;
+    float s1 = -c1*t1*(t1-2.0);
+    
+    float t2 = t*2.0-1.0;
+    float c2 = c*0.5;
+    float s2 = c2*pow(t2,2.0)+c2;
+    
+    return clamp01(mix(s2,s1,s));
+}
+
+float inCubic(float from,float to ,float x)
+{
+	x = remap01(from,to,x);
+    from=0.0;
+    to=1.0;
+    float c = to-from;
+    float t = (x-from)/c;
+    return c*pow(t,3.0);
+}
+
+float outCubic(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float c = to - from;
+    float t = (x-from)/c;
+    t = t - 1.0;
+    return c*(pow(t,3.0)+1.0);
+}
+
+float inOutCubic(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from=0.0;
+    to=1.0;
+    float c = to-from;
+    float t = (x-from)/c;
+    t = t*2.0;
+    float s = step(t,1.0);
+    float s1 = c/2.0*t*t*t;
+    t= t-2.0;
+    float s2 = c/2.0*(t*t*t+2.0);
+    return mix(s2,s1,s);
+}
+
+float outInCubic(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float c = to-from;
+    float t = (x-from)/c;
+    float s = step(t,0.5);
+    
+    float t1 = t*2.0;
+    float c1 = c/2.0;
+	t1 = t1 - 1.0;
+    float s1 = c1*(pow(t1,3.0)+1.0);
+ 	   
+    float t2 = (t*2.0)-1.0;
+    float b2 = c/2.0;
+    float c2 = b2;
+    float s2 = c2*pow(t2,3.0)+b2;
+    
+    return mix(s2,s1,s);
+}
+
+float inQuart(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float c = to-from;
+    float t = (x-from)/c;
+	return c*pow(t,4.0);	
+}
+
+float outQuart(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float c = to-from;
+    float t = (x-from)/c;
+    return -c*(pow(t,4.0)-1.0);
+}
+
+float inOutQuart(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float c = 1.0;
+    float t = x*2.0;
+	float s = step(t,1.0);
+    float s1 = 0.5*pow(t,4.0);
+    t = t - 2.0;
+    float s2 = -0.5*(pow(t,4.0)-2.0);
+    return mix(s2,s1,s);
+}
+
+float outInQuart(float from ,float to ,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float c = to-from;
+    float t = (x-from)/c;
+    
+    float s = step(t,0.5);
+    float t1 = t*2.0-1.0;
+    float c1 = c/2.0;
+    float s1 = -c1*(pow(t1,4.0)-1.0);
+    
+    float t2 = t1;
+    float c2 = c1;
+    float s2 = c2*pow(t2,4.0)+c2;
+    
+    return mix(s2,s1,s);
+}
+
+float inQuint(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t = x;
+    return pow(t,5.0);
+}
+
+float outQuint(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t = x-1.0;
+    return pow(t,5.0)+1.0;
+}
+
+float inOutQuint(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t = x*2.0;
+    float s = step(t,1.0);
+    float s1 = 0.5*pow(t,5.0);
+    t=t-2.0;
+    float s2 = 0.5*(pow(t,5.0)+2.0);
+    return mix(s2,s1,s);
+}
+
+float outInQuint(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t = x;
+    float s = step(t,0.5);
+    
+    float t1 = t*2.0-1.0;
+    float s1 = 0.5*(pow(t1,5.0)+1.0);
+    
+    float t2 = t1;
+    float s2 = 0.5*pow(t2,5.0)+0.5;
+    
+    return mix(s2,s1,s);
+}
+
+float inSine(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from=0.0;
+    to = 1.0;
+    float t = x;
+    return -1.0*cos(t*(3.1416*0.5))+1.0;
+}
+
+float outSine(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from=0.0;
+    to = 1.0;
+    float t = x;
+    return sin(t*(3.1416*0.5));
+}
+
+float inOutSine(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from=0.0;
+    to = 1.0;
+    float t = x;
+    return -0.5*(cos(3.1416*t)-1.0);
+}
+
+float outInSine(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from=0.0;
+    to = 1.0;
+    float t = x;
+    float s = step(t,0.5);
+    float t1 = t*2.0;
+    float s1 = 0.5*sin(t1*(3.1416*0.5));
+    float t2 = t*2.0-1.0;
+    float s2 = -0.5*(cos(t2*(3.1416*0.5)))+1.0;
+    return mix(s2,s1,s);
+}
+
+float inExpo(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from=0.0;
+    to = 1.0;
+    float t = x;
+	return pow(2.0,10.0*(t-1.0))-1.0*0.001;
+}
+
+float outExpo(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from=0.0;
+    to = 1.0;
+    float t = x;
+    return 1.001*(-pow(2.0,-10.0*t)+1.0);
+}
+
+float inOutExpo(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from=0.0;
+    to = 1.0;
+    float t = x*2.0;
+    float s = step(t,1.0);
+    float s1 = 0.5*pow(2.0,10.0*(t-1.0))-0.0005;
+    t = t-1.0;
+    float s2 = 0.5*1.0005*(-pow(2.0,-10.0*t)+2.0);
+    return mix(s2,s1,s);
+}
+
+float outInExpo(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from=0.0;
+    to = 1.0;
+    float t = x;
+    float s = step(t,0.5);
+    float t1 = t*2.0;
+    float s1 = 0.5*1.001*(-pow(2.0,-10.0*t1)+1.0);
+    float t2 = t*2.0-1.0;
+    float s2 = 0.5*pow(2.0,10.0*(t2-1.0))+0.5-0.5*0.001;
+    return mix(s2,s1,s);
+}
+
+float inCirc(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t = x;
+    return -(sqrt(1.0-pow(t,2.0))-1.0);
+}
+
+float outCirc(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t = x-1.0;
+    return sqrt(1.0-pow(t,2.0));
+}
+
+float inOutCirc(float from, float to, float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t= x*2.0;
+    float s1 = remap01(0.0,1.0,-0.5*(sqrt(abs(1.0-t*t))-1.0));
+    t = t-2.0;
+    float s2 = remap01(0.0,1.0,0.5*(sqrt(abs(1.0-t*t))+1.0));
+    float s = step(x,0.5);
+    return mix(s2,s1,s);
+}
+
+float outInCirc(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t= x;
+    float s = step(t,0.5);
+    float t1 = t*2.0-1.0;
+	float s1 = 0.5*sqrt(abs(1.0-pow(t1,2.0)));
+    float t2 = t*2.0 - 1.0;
+    float s2 = -0.5*(sqrt(abs(1.0-pow(t2,2.0)))-1.0)+0.5;
+    return mix(s2,s1,s);
+}
+
+float inBack(float from ,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t = x;
+    float s =1.70158;
+    return t*t*((s+1.0)*t-s);
+}
+
+float outBack(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float s = 1.70158;
+    float t = x-1.0;
+   	return t*t*((s+1.0)*t+s)+1.0;
+}
+
+float inOutBack(float from,float to,float x)
+{
+	float s=1.70158*1.525;
+    x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t=x*2.0;
+    float s1 = step(t,1.0);
+    float s2 = 0.5*(t * t * ((s + 1.0) * t - s));
+    t=t-2.0;
+    float s3 = 0.5*(t * t * ((s + 1.0) * t + s) + 2.0);
+    return mix(s3,s2,s1);
+}
+
+float outInBack(float from,float to,float x)
+{
+    x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t=x;
+    float sv =1.70158;
+    float s = step(t,0.5);
+    float t1 = t*2.0-1.0;
+    float s1 = 0.5*(t1 * t1 * ((sv + 1.0) * t1 + sv) + 1.0);
+    float t2 = t*2.0-1.0;
+    float s2 = 0.5*t2 * t2 * ((sv + 1.0) * t2 - sv)+0.5;
+    return mix(s2,s1,s);
+}
+
+float outBounce(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t = x;
+    float cond1 = step(t,1.0/2.75);
+    float act1 = 7.5625*t*t;
+    
+    float cond2 = step(t,2.0/2.75);
+    float t2 = t - 1.5/2.75;
+    float act2 = 7.5625*t2*t2+0.75;
+    
+    float cond3 = step(t,2.5/2.75);
+    float t3 = t - 2.25/2.75;
+    float act3 = 7.5625*t3*t3+0.9375;
+    
+    float t4 = t - (2.625/2.75);
+    float act4 = 7.5625*t4*t4+0.984375;
+    
+    float s1 = mix(act4,act3,cond3);
+    float s2 = mix(s1,act2,cond2);
+    float s3 = mix(s2,act1,cond1);
+    
+    return s3;
+}
+
+float inBounce(float from,float to ,float x)
+{
+    return 1.0-outBounce(from,to,x);
+}
+
+float inOutBounce(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t = x;
+    float s = step(t,0.5);
+    float s1 = inBounce(1.0,0.0,t*2.0)*0.5;
+    float s2 = outBounce(0.0,1.0,t*2.0-1.0)*0.5+0.5;
+    return mix(s2,s1,s);
+}
+
+float outInBounce(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t = x;
+    float s = step(t,0.5);
+    float s1 = outBounce(0.0,1.0,t*2.0)*0.5;
+    float s2 = inBounce(1.0,0.0,t*2.0-1.0)*0.5+0.5;
+    return mix(s2,s1,s);
+}
+
+float inElastic(float from ,float to ,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t = x-1.0;
+   	float p = 1.0*0.3;
+    float a =1.0;
+    float s =p/4.;
+	return -(a*pow(2.0,10.0*t)*sin((t-s)*(2.0*3.1416)/p));
+}
+
+float outElastic(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t = x;
+   	float p = 1.0*0.3;
+    float a = 1.0;
+    float s = p/4.;
+    return a*pow(2.0,-10.0*t)*sin((t-s)*(2.0*3.1416)/p)+1.0;
+}
+
+float inOutElastic(float from,float to,float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t = x*2.0;
+	float p = 0.45;
+    float a = 1.0;
+    float s = p/4.0;
+    float s1 = step(t,1.0);
+    
+    float t2 = t-1.0;
+    float s2 = -0.5 * (a * pow(2.0, 10.0 * t2) * sin((t2 - s) * (2.0 * 3.1416) / p));
+	
+    float t3 = t-1.0;
+    float s3 = a * pow(2.0, -10.0 * t3) * sin((t3 - s) * (2.0 * 3.1416) / p ) * 0.5 + 1.0;
+    return mix(s3,s2,s1);
+}
+
+float outInElastic(float from,float to, float x)
+{
+	x = remap01(from,to,x);
+    from = 0.0;
+    to = 1.0;
+    float t = x;
+	float s = step(t,0.5);
+    float s1 = outElastic(0.0,1.0,t*2.0)*0.5;
+    float s2 = inElastic(0.0,1.0,t*2.0-1.0)*0.5+0.5;
+    return mix(s2,s1,s);
+}
